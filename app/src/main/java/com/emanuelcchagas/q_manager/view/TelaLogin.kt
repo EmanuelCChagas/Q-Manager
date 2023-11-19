@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -54,14 +56,18 @@ fun TelaLogin(navController: NavController){
                 ),
             verticalArrangement =  Arrangement.Center
         ){
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 color = Color.Black,
-                modifier = Modifier.padding(start = 12.dp, end = 3.dp, top = 10.dp,bottom = 18.dp),
+                modifier = Modifier.padding( top = 10.dp, end = 3.dp),
                 text = "Login",
                 fontSize = TextUnit(10f, type = TextUnitType.Em),
                 fontWeight = FontWeight.Bold
             )
-            Column(modifier = Modifier.padding(start = 12.dp, end = 3.dp, top = 10.dp,bottom = 8.dp)){
+            Spacer(modifier = Modifier.height(28.dp))
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)){
                 Text(
                     color = Color.Black,
                     text = "Endereço de E-mail",
@@ -69,13 +75,17 @@ fun TelaLogin(navController: NavController){
                     fontWeight = FontWeight.Bold
                 )
                 var dsEmail by remember{ mutableStateOf( "") }
-                TextField(
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
                     value = dsEmail,
                     onValueChange = { dsEmailNovo -> dsEmail = dsEmailNovo},
                     label = { Text(  text = "Digite seu endereço de e-mail") }
                 )
             }
-            Column(modifier = Modifier.padding(start = 12.dp, end = 3.dp, top = 10.dp,bottom = 8.dp)){
+            Spacer(modifier = Modifier.height(18.dp))
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)){
                 Text(
                     color = Color.Black,
                     text = "Senha",
@@ -83,18 +93,22 @@ fun TelaLogin(navController: NavController){
                     fontWeight = FontWeight.Bold
                 )
                 var dsSenha by remember{ mutableStateOf( "") }
-                TextField(
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
                     value = dsSenha,
                     onValueChange = { dsSenhaNova -> dsSenha = dsSenhaNova},
                     label = { Text("Digite sua senha") }
                 )
             }
+            Spacer(modifier = Modifier.height(18.dp))
             Row (){
+//                Checkbox(checked = false, onCheckedChange = {/*TODO*/})
             }
+            Spacer(modifier = Modifier.height(20.dp))
             Row (
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 28.dp, bottom = 8.dp, start = 12.dp, end = 12.dp), horizontalArrangement = Arrangement.Center) {
+                    .padding(horizontal = 12.dp, vertical = 8.dp), horizontalArrangement = Arrangement.Center) {
                 OutlinedButton(
                     modifier = Modifier
                         .height(56.dp)
