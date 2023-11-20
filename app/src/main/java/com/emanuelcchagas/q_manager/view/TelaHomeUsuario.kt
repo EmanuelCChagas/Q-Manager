@@ -2,6 +2,7 @@ package com.emanuelcchagas.q_manager.view
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +36,9 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.emanuelcchagas.q_manager.models.ConverterHashMapParaListaFilaItem
 import com.emanuelcchagas.q_manager.models.ListaFilaItem
+import com.emanuelcchagas.q_manager.models.ListaItem
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -56,16 +61,9 @@ fun TelaHomeUsuario(navController: NavController) {
             if(value != null){
                 for (vl in value){
                     if(vl is HashMap<*, *>){
-                        val item = ListaFilaItem(
-                            (vl.get(key = "cdFila") as Long).toInt(),
-                            vl.get(key = "dsFilaNome") as String,
-                            (vl.get(key = "idMinutosQtd") as Long).toInt(),
-                            (vl.get(key = "idTamanhoMaximo") as Long).toInt(),
-                            (vl.get(key = "idTamanhoAtual") as Long).toInt()
-                        )
+                        val item = ConverterHashMapParaListaFilaItem(vl);
                         listaItens  = listaItens + item
                     }
-
                 }
             }
         }
@@ -100,6 +98,12 @@ fun TelaHomeUsuario(navController: NavController) {
         }
         ){
           innerPadding ->
+           Divider (
+               color = Color.Black,
+               modifier = Modifier
+                   .height(1.dp)
+                   .fillMaxWidth()
+           )
            LazyColumn(
                modifier = Modifier.fillMaxSize().padding(innerPadding),
                verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -110,24 +114,6 @@ fun TelaHomeUsuario(navController: NavController) {
            }
         }
 }
-
-@Composable
-fun ListaItem(
-    item: ListaFilaItem,
-    onClick: () -> Unit
-){
-    Row(
-        modifier = Modifier.fillMaxWidth()
-    ){
-        Text(text = item.dsFilaNome)
-        Spacer(modifier = Modifier.width(20.dp))
-        Text(text = item.idMinutosQtd.toString() + " min")
-        Spacer(modifier = Modifier.width(20.dp))
-        Text(text = item.idTamanhoAtual.toString() + "/" + item.idTamanhoMaximo.toString())
-    }
-
-}
-
 
 
 @Preview(showBackground = true)

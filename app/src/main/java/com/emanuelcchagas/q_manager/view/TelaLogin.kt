@@ -118,7 +118,7 @@ fun TelaLogin(navController: NavController){
                         containerColor = Color(0xFF5D5FEF),
                         contentColor = Color.White
                     ),
-                    onClick = { navController.navigate(route = Tela.HomeUsuario.route) }) {
+                    onClick = { navController.navigate(route = Tela.HomeAdm.route) }) {
                     Text(text = "Entrar")
                 }
             }
