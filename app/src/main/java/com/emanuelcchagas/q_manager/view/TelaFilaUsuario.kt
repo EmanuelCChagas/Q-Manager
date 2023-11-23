@@ -2,20 +2,20 @@ package com.emanuelcchagas.q_manager.view
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,7 +38,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.emanuelcchagas.q_manager.models.ConverterHashMapParaListaFilaItem
 import com.emanuelcchagas.q_manager.models.ListaFilaItem
-import com.emanuelcchagas.q_manager.models.ListaItem
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -49,7 +48,7 @@ import kotlin.collections.HashMap
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TelaHomeUsuario(navController: NavController) {
+fun TelaFilaUsuario(navController: NavController) {
     var listaItens by remember{ mutableStateOf(listOf<ListaFilaItem>()) }
 
     val database = Firebase.database
@@ -57,14 +56,12 @@ fun TelaHomeUsuario(navController: NavController) {
 
     referenciaFilas.addValueEventListener(object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val value: Any? = dataSnapshot.getValue<Any?>()
-            if(value != null && value is HashMap<*,*>){
+            val value: ArrayList<Any?>? = dataSnapshot.getValue<ArrayList<Any?>>()
+            if(value != null){
                 for (vl in value){
                     if(vl is HashMap<*, *>){
-                        val item = ConverterHashMapParaListaFilaItem(vl.key.toString(), vl.value as HashMap<*, *>);
-                        if(!listaItens.contains(item)){
-                            listaItens  = listaItens + item
-                        }
+                        //val item = ConverterHashMapParaListaFilaItem(vl);
+                        //listaItens  = listaItens + item
                     }
                 }
             }
@@ -77,49 +74,50 @@ fun TelaHomeUsuario(navController: NavController) {
     })
 
 
-       Scaffold(
+    Scaffold(
         topBar = {
             TopAppBar(
-                modifier = Modifier.height(100.dp),
                 title = {
-                            Column(modifier = Modifier.fillMaxSize().padding(top = 3.dp)){
-                                Text(text = "Bem Vindo",
-                                    fontSize = TextUnit(10f, type = TextUnitType.Em),
-                                    fontWeight = FontWeight.Bold)
-                                Text(text = "Escolha uma fila abaixo para entrar",
-                                    fontSize = TextUnit(4f, type = TextUnitType.Em),
-                                    fontWeight = FontWeight.ExtraLight,
-                                    color = Color(0xFF7B7B7B)
-                                )
-                            }
-                        },
+                    Row(
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.fillMaxWidth().padding(end = 2.dp)
+                    ){
+                        Text(text = "Fila",
+                            fontSize = TextUnit(6f, type = TextUnitType.Em),
+                            fontWeight = FontWeight.Bold)
+                    }
+                },
                 colors = TopAppBarDefaults.largeTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f)
-                    )
-           )
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f)
+                ),
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        }
+                    ) {
+                        Icon(Icons.Filled.ArrowBack, null)
+                    }
+                }
+            )
         }
-        ){
-          innerPadding ->
-           Divider (
-               color = Color.Black,
-               modifier = Modifier
-                   .height(1.dp)
-                   .fillMaxWidth()
-           )
-           LazyColumn(
-               modifier = Modifier.fillMaxSize().padding(innerPadding),
-               verticalArrangement = Arrangement.spacedBy(16.dp),
-           ) {
-               items(listaItens){
-                   ListaItem(it, {})
-               }
-           }
+    ){
+            innerPadding ->
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            items(listaItens){
+              //  ListaItem(it, {})
+            }
         }
+    }
 }
+
 
 
 @Preview(showBackground = true)
 @Composable
-fun TelaHomeUsuarioPreview() {
+fun TelaFilaUsuarioPreview() {
     TelaHomeUsuario(navController = rememberNavController())
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "384920797674",
+    "project_id": "q-manager-cec44",
+    "storage_bucket": "q-manager-cec44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:384920797674:android:82045a17304f35668cf293",
+        "android_client_info": {
+          "package_name": "com.emanuelcchagas.q_manager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrQHasz5Y7EpkcrCDAr2xACROe8PgtgMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
